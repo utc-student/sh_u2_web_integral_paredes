@@ -1,4 +1,6 @@
 <!-- Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh -->
+@props(['breadcrumb' => []])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -23,24 +25,22 @@
     @livewireStyles
 </head>
 
-<body 
-x-data="{open:false,}"
-:class="{'overflow-hidden' : open,}"
-class="sm:overflow-auto"
->
+<body x-data="{ open: false, }" :class="{ 'overflow-hidden': open, }" class="sm:overflow-auto">
 
     @include('layouts.includes.admin.navigation')
     @include('layouts.includes.admin.sidebar')
 
     <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-            {{$slot}}
+        <div class="mt-14">
+            @include('layouts.includes.admin.breadcrumb')
+
+            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                {{ $slot }}
+            </div>
         </div>
     </div>
 
-    <div x-cloak
-        x-show="open" 
-        x-on:click="open = false"
+    <div x-cloak x-show="open" x-on:click="open = false"
         class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30 sm:hidden"></div>
 
     @stack('modals')
