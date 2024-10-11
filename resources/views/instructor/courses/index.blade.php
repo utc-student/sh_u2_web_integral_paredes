@@ -5,7 +5,9 @@
         </h2>
     </x-slot>
 
-    <div>
-        <a href="" class="btn btn-green">Crear curso</a>
-    </div>
+    <x-container>
+        <div class="md:flex md:justify-end">
+            <a href="{{route('instructor.courses.create')}}" class="btn btn-green block w-full text-center md:w-auto">Crear curso</a>
+        </div>
+    </x-container>
 </x-instructor-layout>
