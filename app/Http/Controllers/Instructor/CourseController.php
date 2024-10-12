@@ -44,7 +44,7 @@ class CourseController extends Controller
             'price_id' => 'required|exists:prices,id',
         ]); 
 
-        $data['user_id'] = auth()->user()->id;
+        $data['user_id'] = auth()->guard()->user()->id;
 
         $course = Course::create($data);
 
