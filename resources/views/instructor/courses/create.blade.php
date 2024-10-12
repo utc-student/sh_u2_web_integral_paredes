@@ -14,6 +14,8 @@
                     Complete la siguiente información para crear un curso
                 </h2>
 
+                <x-validation-errors :errors="$errors" />
+
                 <div class="mb-4"> {{-- Titutlo --}}
                     <x-label for="title" class="mb-1">Nombre del curso</x-label>
 
