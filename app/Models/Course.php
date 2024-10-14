@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\CourseStatus;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,6 +33,16 @@ class Course extends Model
         'status' => CourseStatus::class,
     ];
 
+    /* Accesor */
+    public function image():Attribute {
+        return new Attribute(
+            get: function () {
+                return $this->image_path ? Storage::url($this->image_path) : "https://image.pngaaa.com/13/1887013-middle.png"; 
+            }, 
+        );
+    }
+    
+    /* RELACIONES */
     public function teacher()
     {
         return $this->belongsTo(User::class);
