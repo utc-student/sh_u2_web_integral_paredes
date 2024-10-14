@@ -26,11 +26,13 @@ class Course extends Model
         'user_id',
         'level_id',
         'category_id',
-        'price_id'
+        'price_id',
+        'published_at'
     ];
 
     protected $casts = [
         'status' => CourseStatus::class,
+        'published_at' => 'datetime'
     ];
 
     /* Accesor */
