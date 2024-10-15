@@ -6,17 +6,8 @@
     </x-slot>
 
     <x-instructor.course-sidebar :course="$course">
+
+        @livewire('instructor.courses.promotional-video', ['course' => $course])
+
     </x-instructor.course-sidebar>
-
-    @push('js')
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#description'))
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
-    @endpush
-
 </x-instructor-layout>
