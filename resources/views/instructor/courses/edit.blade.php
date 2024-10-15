@@ -109,7 +109,7 @@
 
                             <div class="grid md:grid-cols-2 gap-4">
                                 <figure>
-                                    <img src="{{ $course->image }}" alt=""
+                                    <img src="{{ $course->image }}" alt="Imagén del curso" id="imgPreview"
                                         class="w-full aspect-video object-cover object-center">
                                 </figure>
 
@@ -122,7 +122,8 @@
                                     <label>
                                         <span class="btn btn-blue md:hidden">Selecciona una imagén</span>
 
-                                        <input class="hidden md:block" type="file" accept="image/*" name="image">
+                                        <input class="hidden md:block" type="file" accept="image/*" name="image"
+                                            onchange="preview_image(event, '#imgPreview')">
                                     </label>
 
                                     <div class="flex md:justify-end mt-4">
