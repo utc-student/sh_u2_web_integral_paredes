@@ -44,7 +44,7 @@ class CourseController extends Controller
             'category_id' => 'required|exists:categories,id',
             'level_id' => 'required|exists:levels,id',
             'price_id' => 'required|exists:prices,id',
-        ]); 
+        ]);
 
         $data['user_id'] = auth()->guard()->user()->id;
 
@@ -78,7 +78,17 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'slug' => 'required|max:255|unique:courses,slug,' . $course->id,
+            'summary' => 'required|max:1000',
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'level_id' => 'required|exists:levels,id',
+            'price_id' => 'required|exists:prices,id',
+        ]);
+
+        return $request->all();
     }
 
     /**

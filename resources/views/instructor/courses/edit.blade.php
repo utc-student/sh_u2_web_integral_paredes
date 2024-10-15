@@ -31,7 +31,7 @@
 
                         <hr class="mt-2 mb-6">
 
-                        <x-validation-errors />
+                        <x-validation-errors class="mb-4" />
 
                         <div class="mb-4">
                             <x-label value="Título del curso" class="mb-1" />
@@ -48,9 +48,15 @@
                         @endempty
 
                         <div class="mb-4">
-                            <x-label value="Descripción del curso" class="mb-1" />
+                            <x-label value="Resumen del curso" class="mb-1" />
                             <x-textarea name="summary" class="form-textarea w-full"
                                 rows="3">{{ old('summary', $course->summary) }}</x-textarea>
+                        </div>
+
+                        <div class="mb-4 ckeditor">
+                            <x-label value="Descripción del curso" class="mb-1" />
+                            <x-textarea id="description" name="description" class="form-textarea w-full"
+                                rows="3">{{ old('description', $course->description) }}</x-textarea>
                         </div>
 
                         <div class="grid md:grid-cols-3 gap-4 mb-8">
@@ -131,4 +137,16 @@
             </div>
         </div>
     </x-container>
+
+    @push('js')
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#description'))
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+    @endpush
+
 </x-instructor-layout>
