@@ -64,4 +64,9 @@ class Course extends Model
     {
         return $this->belongsTo(Price::class);
     }
+
+    /* Relacion uno a muchos */
+    public function goals() {
+        return $this->hasMany(Goal::class);
+    }
 }

@@ -12,6 +12,11 @@
             'name' => 'Video promocional',
             'active' => request()->routeIs('instructor.courses.video'),
         ],
+        [
+            'route' => route('instructor.courses.goals', $course),
+            'name' => 'Metas del curso',
+            'active' => request()->routeIs('instructor.courses.goals'),
+        ],        
     ];
 @endphp
 
