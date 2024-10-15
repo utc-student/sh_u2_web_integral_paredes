@@ -12,3 +12,6 @@ Route::redirect('/', '/instructor/courses')
 
 /* Cursos */
 Route::resource('courses', CourseController::class);
+
+Route::get('courses/{course}/video', [CourseController::class, 'video'])
+    ->name('courses.video');
