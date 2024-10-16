@@ -7,7 +7,7 @@
 
     <x-instructor.course-sidebar :course="$course">
 
-        
+        @livewire('instructor.courses.goals', ['course' => $course])
 
     </x-instructor.course-sidebar>
 </x-instructor-layout>
