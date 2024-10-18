@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Level;
 use App\Models\Price;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -44,7 +45,7 @@ class CourseController extends Controller
             'category_id' => 'required|exists:categories,id',
             'level_id' => 'required|exists:levels,id',
             'price_id' => 'required|exists:prices,id',
-        ]); 
+        ]);
 
         $data['user_id'] = auth()->guard()->user()->id;
 
@@ -78,7 +79,29 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|max:255',
+            'slug' => 'required|max:255|unique:courses,slug,' . $course->id,
+            'summary' => 'nullable|max:1000',
+            'description' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
+            'level_id' => 'required|exists:levels,id',
+            'price_id' => 'required|exists:prices,id',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($course->image_path) {
+                Storage::delete($course->image_path);
+            }
+
+            $data['image_path'] = Storage::put('courses/images', $request->file('image'));
+        }
+
+        $course->update($data);
+
+        session()->flash('flash.banner', 'El curso se actualizo con exito!');
+
+        return redirect()->route('instructor.courses.edit', $course);
     }
 
     /**
@@ -87,5 +110,15 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+    public function video(Course $course)
+    {
+        return view('instructor.courses.video', compact('course'));
+    }
+
+    public function goals(Course $course)
+    {
+        return view('instructor.courses.goals', compact('course'));
     }
 }
