@@ -48,6 +48,12 @@ class Goals extends Component
         ]);
     }
 
+    public function destroy($goal_id) {
+        Goal::find($goal_id)->delete();
+
+        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+    }
+
     public function render()
     {
         return view('livewire.instructor.courses.goals');
