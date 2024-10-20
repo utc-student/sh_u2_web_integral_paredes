@@ -13,7 +13,7 @@
 
         <ul>
             @forelse ($courses as $course)
-                <li class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <li class="bg-white rounded-lg shadow-lg overflow-hidden mb-4">
                     <a href="{{ route('instructor.courses.edit', $course) }}" class="md:flex">
                         <figure class="flex-shrink-0">
                             <img src="{{ $course->image }}" alt=""
@@ -81,15 +81,15 @@
                 @empty
                     <li class="bg-white rounded-lg shadow-lg p-6">
                         <div class="flex justify-between items-center">
-                            <p>Salta  la creación de un curso</p>
-                            
-                            <a href="{{route('instructor.courses.create')}}" class="btn btn-blue">
+                            <p>Salta la creación de un curso</p>
+
+                            <a href="{{ route('instructor.courses.create') }}" class="btn btn-blue">
                                 Crea tu curso
                             </a>
                         </div>
 
                     </li>
-                @endforelse
-            </ul>
-        </x-container>
-    </x-instructor-layout>
+            @endforelse
+        </ul>
+    </x-container>
+</x-instructor-layout>
