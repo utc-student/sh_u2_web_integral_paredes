@@ -8,6 +8,12 @@
         @endforeach
     </ul>
 
+    <div class="flex justify-end mb-8">
+        <x-button wire:click="update">
+            Actualizar metas
+        </x-button>
+    </div>
+
     <form wire:submit="store">
         <div class="card bg bg-gray-100">
             <x-label>Nueva meta</x-label>
