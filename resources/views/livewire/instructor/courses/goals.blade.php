@@ -3,7 +3,7 @@
     @if (count($goals))
         <ul class="mb-4 space-y-2" id="goals">
             @foreach ($goals as $index => $goal)
-                <li wire:key="goal-{{ $goal['id'] }}">
+                <li wire:key="goal-{{ $index }}" data-id="{{ $goal['id'] }}">
                     <div class="flex">
                         <x-input wire:model="goals.{{ $index }}.name" class="flex-1 rounded-r-none" />
 
@@ -50,13 +50,19 @@
         <script>
             const goals = document.getElementById('goals');
             const sortable = new Sortable(goals, {
-                handle: '#goal_handle',
+                //handle: '#goal_handle',
                 animation: 150,
-                ghostClass: 'blue-background-class'
+                ghostClass: 'blue-background-class',
+                store: {
+                    set: (sortable) => {
+                        console.log(sortable.toArray());
+                        @this.call('sortGoals', sortable.toArray());
+                    }
+                }
             });
         </script>
 
-        {{-- Eliminar meta, confirmacion. --}}
+        {{-- Eliminar meta, y confirmacion. --}}
         <script>
             function destroyGoal(id) {
                 Swal.fire({

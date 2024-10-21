@@ -14,23 +14,27 @@ class Goals extends Component
     #[Validate('required|string|max:255')]
     public $name;
 
-    public function mount($course) {
-        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+    public function mount($course)
+    {
+        $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')
+        ->get()->toArray();
     }
 
-    public function store() {
+    public function store()
+    {
         $this->validate();
 
         $this->course->goals()->create([
             'name' => $this->name
         ]);
 
-        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+        $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')->get()->toArray();
 
-        $this->reset('name'); 
+        $this->reset('name');
     }
-    
-    public function update() {
+
+    public function update()
+    {
         $this->validate([
             'goals.*.name' => 'required|string|max:255'
         ]);
@@ -48,10 +52,21 @@ class Goals extends Component
         ]);
     }
 
-    public function destroy($goal_id) {
+    public function destroy($goal_id)
+    {
         Goal::find($goal_id)->delete();
 
-        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+        $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')->get()->toArray();
+    }
+
+    public function sortGoals($data) {
+        foreach ($data as $index => $goalId) {
+            Goal::find($goalId)->update([
+                'position' => $index + 1
+            ]);
+        }
+
+        $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')->get()->toArray();
     }
 
     public function render()
