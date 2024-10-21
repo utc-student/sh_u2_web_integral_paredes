@@ -19,6 +19,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <x-input-error for="goals.{{ $index }}.name" />
                 </li>
             @endforeach
         </ul>
@@ -50,14 +52,13 @@
         <script>
             const goals = document.getElementById('goals');
             const sortable = new Sortable(goals, {
-                //handle: '#goal_handle',
                 animation: 150,
                 ghostClass: 'blue-background-class',
-                store: {
-                    set: (sortable) => {
-                        console.log(sortable.toArray());
-                        @this.call('sortGoals', sortable.toArray());
-                    }
+                onStart: () => {
+                    @this.call('syncGoalsBeforeSort');
+                },
+                onEnd: (event) => {
+                    @this.call('sortGoals', sortable.toArray());
                 }
             });
         </script>

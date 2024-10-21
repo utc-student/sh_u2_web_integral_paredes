@@ -17,7 +17,7 @@ class Goals extends Component
     public function mount($course)
     {
         $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')
-        ->get()->toArray();
+            ->get()->toArray();
     }
 
     public function store()
@@ -37,12 +37,14 @@ class Goals extends Component
     {
         $this->validate([
             'goals.*.name' => 'required|string|max:255'
+        ], [
+            'goals.*.name.required' => 'El nombre de la meta es obligatorio.',
+            'goals.*.name.string' => 'El nombre de la meta debe ser una cadena de texto.',
+            'goals.*.name.max' => 'El nombre de la meta no debe superar los 255 caracteres.'
         ]);
 
         foreach ($this->goals as $goal) {
-            Goal::find($goal['id'])->update(
-                ['name' => $goal['name']]
-            );
+            Goal::find($goal['id'])->update(['name' => $goal['name']]);
         }
 
         $this->dispatch('swal', [
@@ -59,14 +61,38 @@ class Goals extends Component
         $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')->get()->toArray();
     }
 
-    public function sortGoals($data) {
+    public function sortGoals($data)
+    {
+        $this->validate(
+            ['goals.*.name' => 'required|string|max:255'],
+            [
+                'goals.*.name.required' => 'El nombre de la meta es obligatorio.',
+                'goals.*.name.string' => 'El nombre de la meta debe ser una cadena de texto.',
+                'goals.*.name.max' => 'El nombre de la meta no debe superar los 255 caracteres.'
+            ]
+        );
+
         foreach ($data as $index => $goalId) {
-            Goal::find($goalId)->update([
-                'position' => $index + 1
-            ]);
+            Goal::find($goalId)->update(['position' => $index + 1]);
         }
 
         $this->goals = Goal::where('course_id', $this->course->id)->orderBy('position', 'asc')->get()->toArray();
+    }
+
+    public function syncGoalsBeforeSort()
+    {
+        $this->validate(
+            ['goals.*.name' => 'required|string|max:255'],
+            [
+                'goals.*.name.required' => 'El nombre de la meta es obligatorio.',
+                'goals.*.name.string' => 'El nombre de la meta debe ser una cadena de texto.',
+                'goals.*.name.max' => 'El nombre de la meta no debe superar los 255 caracteres.'
+            ]
+        );
+
+        foreach ($this->goals as $goal) {
+            Goal::find($goal['id'])->update(['name' => $goal['name']]);
+        }
     }
 
     public function render()
