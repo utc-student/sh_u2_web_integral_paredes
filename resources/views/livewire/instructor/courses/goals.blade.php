@@ -1,17 +1,21 @@
 {{-- Do your work, then step back. --}}
 <div>
     @if (count($goals))
-        <ul class="mb-4 space-y-2">
+        <ul class="mb-4 space-y-2" id="goals">
             @foreach ($goals as $index => $goal)
                 <li wire:key="goal-{{ $goal['id'] }}">
                     <div class="flex">
                         <x-input wire:model="goals.{{ $index }}.name" class="flex-1 rounded-r-none" />
 
-                        <div class="border border-l-0 border-gray-300">
-                            <div class="flex items-center h-full">
+                        <div class="border border-l-0 border-gray-300 rounded-r">
+                            <div class="flex items-center h-full divide-x divide-gray-300">
                                 <button onclick="destroyGoal({{ $goal['id'] }})" class="px-2 hover:text-red-500">
                                     <i class="far fa-trash-alt"></i>
                                 </button>
+
+                                <div class="px-2 cursor-move" id="goal_handle">
+                                    <i class="fas fa-bars"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -40,6 +44,19 @@
     </form>
 
     @push('js')
+        {{-- CDN sortablejs --}}
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
+
+        <script>
+            const goals = document.getElementById('goals');
+            const sortable = new Sortable(goals, {
+                handle: '#goal_handle',
+                animation: 150,
+                ghostClass: 'blue-background-class'
+            });
+        </script>
+
+        {{-- Eliminar meta, confirmacion. --}}
         <script>
             function destroyGoal(id) {
                 Swal.fire({
